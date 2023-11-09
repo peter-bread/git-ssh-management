@@ -31,11 +31,11 @@ We will have a directory for each account:
 
 Repos on our personal GitHub will be stored in `~/repos/personal/`.
 
-Repos on our work GitHub will be stored in `~/repos/work`.
+Repos on our work GitHub will be stored in `~/repos/work/`.
 
 > On Linux: `~/` is the same as `/home/username/`.
 >
-> On MacOS: `~/` is the same as `/Users/username`.
+> On MacOS: `~/` is the same as `/Users/username/`.
 
 ## Add stuff to .gitconfig files
 
