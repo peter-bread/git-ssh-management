@@ -111,6 +111,8 @@ When we leave the directory, the key is removed from the agent.
 > On MacOS, the ssh-agent should start by default.
 >
 > We do not need to run the following command and do not need to put in our shell RC file.
+>
+> Skip to the [next step](#define-function-for-managing-keys-in-ssh-agent).
 
 Run `eval $(ssh-agent -s)`. This starts the ssh-agent.
 
