@@ -102,7 +102,7 @@ Our ssh directory will look like:
 
 We will load the correct key to the ssh agent whenever we enter the specified directory.
 
-For example, when we change into `~/repos/work` we want `~/.ssh/github-work` to be loaded.
+For example, when we change into `~/repos/work/` we want `~/.ssh/github-work` to be loaded.
 
 When we leave the directory, the key is removed from the agent.
 
@@ -116,11 +116,11 @@ When we leave the directory, the key is removed from the agent.
 
 Run `eval $(ssh-agent -s)`. This starts the ssh-agent.
 
-If we want the agent to be run in every session, we can add this command to wer shell RC file (e.g. `~/.bashrc`, `~/.zshrc`, etc). Make sure it is put it before the next code snippet. If we do this then we need to run `source ~/.bashrc` or `source ~/.zshrc` to reload `~.bashrc` (or equivalent) and execute new changes (in this case starting the ssh-agent).
+If we want the agent to be run in every session, we can add this command to wer shell RC file (e.g. `~/.bashrc`, `~/.zshrc`, etc). Make sure it is put it before the next code snippet. If we do this then we need to run `source ~/.bashrc` or `source ~/.zshrc` to reload `~/.bashrc` (or equivalent) and execute new changes (in this case starting the ssh-agent).
 
 ### Define Function for Managing Keys in ssh-agent
 
-This function ensures there is only ever one key loaded in the agent at any time. When we enter a directory it checks if it is a sub directory of `~/repos/personal` or `~/repos/work`, and then adds the corresponding key to the agent. When we leave a valid directory, the key(s) are removed from the agent.
+This function ensures there is only ever one key loaded in the agent at any time. When we enter a directory it checks if it is a sub directory of `~/repos/personal/` or `~/repos/work/`, and then adds the corresponding key to the agent. When we leave a valid directory, the key(s) are removed from the agent.
 
 This function is not optimal but it is functional.
 
