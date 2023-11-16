@@ -157,6 +157,10 @@ cd() {
         builtin cd "$@"
         ssh_key_manager
 }
+
+# Load correct key if terminal starts in ~/Developer/*/
+# e.g. when you laucnh terminal from within vscode
+ssh_key_manager
 ```
 
 > **Some  definitions:**
