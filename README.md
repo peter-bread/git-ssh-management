@@ -37,7 +37,7 @@ Repos on our work GitHub will be stored in `~/repos/work/`.
 >
 > On MacOS: `~/` is the same as `/Users/username/`.
 
-## Add stuff to .gitconfig files
+## Add Stuff to `.gitconfig` Files
 
 ```bash
 # ~/.gitconfig
@@ -106,7 +106,7 @@ For example, when we change into `~/repos/work/` we want `~/.ssh/github-work` to
 
 When we leave the directory, the key is removed from the agent.
 
-### Make sure ssh-agent is running
+### Make Sure ssh-agent is Running
 
 > On MacOS, the ssh-agent should start by default.
 >
