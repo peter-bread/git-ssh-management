@@ -2,9 +2,15 @@
 
 How to manage multiple GitHub accounts with ssh on one machine.
 
+> **Note:** This is an updated solution.
+>
+> [Click here](./README.old.md) to see old solution.
+>
+> [CLick here](./change.md) to see explanation of differences and reasons between the two versions.
+
 This guide is for Linux and MacOS.
 
-For Windows, filepaths will need to be modified and there will be extra steps in getting bash scripts to run. Would recommend using WSL, then this tutorial will work.
+For Windows, filepaths will need to be modified. Would recommend using WSL, then this tutorial will work.
 
 In this let's assume we have two GitHub accounts, personal and work.
 
@@ -37,38 +43,6 @@ Repos on our work GitHub will be stored in `~/repos/work/`.
 >
 > On MacOS: `~/` is the same as `/Users/username/`.
 
-## Add Stuff to `.gitconfig` Files
-
-```bash
-# ~/.gitconfig
-
-[user]
-    name = John Smith
-
-[init]
-    defaultBranch = main
-
-[includeIf "gitdir:~/repos/personal/"]
-    path = ~/repos/personal/.gitconfig
-
-[includeIf "gitdir:~/repos/work/"]
-    path = ~/repos/work/.gitconfig
-```
-
-```bash
-# ~/repos/personal/.gitconfig
-
-[user]
-    email = "personal@email.com"
-```
-
-```bash
-# ~/repos/work/.gitconfig
-
-[user]
-    email = "work@org.com"
-```
-
 ## Generate ssh keys
 
 ```bash
@@ -98,75 +72,54 @@ Our ssh directory will look like:
 
 > **Note:** With this management technique we will not be using `~/.ssh/config` (for github at least, we can still use `~/.ssh/config` for other things, e.g. ssh remote connections).
 
-## ssh-agent
-
-We will load the correct key to the ssh agent whenever we enter the specified directory.
-
-For example, when we change into `~/repos/work/` we want `~/.ssh/github-work` to be loaded.
-
-When we leave the directory, the key is removed from the agent.
-
-### Make Sure ssh-agent is Running
-
-> On MacOS, the ssh-agent should start by default.
->
-> We do not need to run the following command and do not need to put in our shell RC file.
->
-> Skip to the [next step](#define-function-for-managing-keys-in-ssh-agent).
-
-Run `eval $(ssh-agent -s)`. This starts the ssh-agent.
-
-If we want the agent to be run in every session, we can add this command to wer shell RC file (e.g. `~/.bashrc`, `~/.zshrc`, etc). Make sure it is put it before the next code snippet. If we do this then we need to run `source ~/.bashrc` or `source ~/.zshrc` to reload `~/.bashrc` (or equivalent) and execute new changes (in this case starting the ssh-agent).
-
-### Define Function for Managing Keys in ssh-agent
-
-This function ensures there is only ever one key loaded in the agent at any time. When we enter a directory it checks if it is a sub directory of `~/repos/personal/` or `~/repos/work/`, and then adds the corresponding key to the agent. When we leave a valid directory, the key(s) are removed from the agent.
-
-This function is not optimal but it is functional.
+## Add Stuff to `.gitconfig` Files
 
 ```bash
-ssh_key_manager() {
+# ~/.gitconfig
 
-        # Store the previous key (if any) to be removed
-        previous_key=""
+[user]
+    name = John Smith
 
-        if [[ "$PWD" == "$HOME/repos/work"* ]]; then
-                previous_key="github-personal"
-                current_key="github-work"
-        elif [[ "$PWD" == "$HOME/repos/personal"* ]]; then
-                previous_key="github-work"
-                current_key="github-personal"
-        fi
+[init]
+    defaultBranch = main
 
-        # Remove the previous key (if any)
-        if [ -n "$previous_key" ]; then
-                ssh-add -d ~/.ssh/"$previous_key" 2>/dev/null
-        fi
+[includeIf "gitdir:~/repos/personal/"]
+    path = ~/repos/personal/.gitconfig
 
-        if [[ "$PWD" == "$HOME/repos/work"* || "$PWD" == "$HOME/repos/personal"* ]]; then
-                # Load the correct key
-                ssh-add -l | grep -q "$current_key" || ssh-add ~/.ssh/"$current_key" 2>/dev/null
-        else
-                # If we go to non-repo directory remove any remaining keys
-                ssh-add -D 2>/dev/null
-        fi
-}
-
-# redefine cd to run `ssh_key_manager` every time it is used
-cd() {
-        builtin cd "$@"
-        ssh_key_manager
-}
-
-# Load correct key if terminal starts in ~/Developer/*/
-# e.g. when you laucnh terminal from within vscode
-ssh_key_manager
+[includeIf "gitdir:~/repos/work/"]
+    path = ~/repos/work/.gitconfig
 ```
 
-> **Some  definitions:**
+```bash
+# ~/repos/personal/.gitconfig
+
+[user]
+    email = personal@email.com
+
+[core]
+    sshCommand = ssh -i ~/.ssh/github-personal -F /dev/null
+```
+
+```bash
+# ~/repos/work/.gitconfig
+
+[user]
+    email = work@org.com
+
+[core]
+    sshCommand = ssh -i ~/.ssh/github-work -F /dev/null
+```
+
+## `core.sshCommand` Explanation
+
+**`[core]`:** This is a section in the Git configuration that is used for core settings that apply to the entire repository.
+
+**`sshCommand`:** This is an option within the [core] section that allows you to specify a custom SSH command.
+
+**`ssh -i /path/to/personal/key -F /dev/null`:** This is the custom SSH command itself. Let's break it down:
+
+> **`ssh`:** The base SSH command.
 >
-> `$PWD` stands for 'Print Working Directory', and it returns the current working directory.
+> **`-i /path/to/personal/key`:** Specifies the path to the private key that Git should use when connecting via SSH. In this case, it points to a specific private key file associated with your personal account.
 >
-> `$HOME` is the same as `~`.
->
-> `ssh-add` outputs to `STDERR` (standard error output, which is associated with the number `2`). We don't want to be told about ssh keys being added and removed from the agent every time we use the `cd` command, so we redirect the output of `ssh-add` from `STDERR` to `/dev/null` (which discards any data written to it). We do this but putting `2>/dev/null` at the end of every `ssh-add` command.
+> **`-F /dev/null`:** Specifies the configuration file to use for SSH. `/dev/null` is a special file that essentially means "no configuration." This is useful when you want to use a specific key (`-i`) without any additional configuration. It ensures that no SSH configuration file is read, including `~/.ssh/config`, and the key specified with `-i` is used directly.
