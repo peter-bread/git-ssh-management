@@ -124,7 +124,6 @@ Our ssh directory will look like:
 >
 > **`-F /dev/null`:** Specifies the configuration file to use for SSH. `/dev/null` is a special file that essentially means "no configuration." This is useful when you want to use a specific key (`-i`) without any additional configuration. It ensures that no SSH configuration file is read, including `~/.ssh/config`, and the key specified with `-i` is used directly.
 
-
 ## gh
 
 [Click here](./gh-cli.md) to see how to set up multiple accounts with GitHub CLI
