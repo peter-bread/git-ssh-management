@@ -82,4 +82,4 @@ cd() {
 > `gh` requires an internet connection.
 >
 > If you use `cd` without an internet connectio, you will get a warning form `gh` saying it couldn't connect.
-> If this is annoying, you can alter the `cd` function to only call `gh_auth_switch_on_pwd` if there is a connection, and/or send stdout/stderr to `/dev/null`
+> If this is annoying, you can alter the `cd` function to only call `gh_auth_switch_on_pwd` if there is a connection, and/or send stdout/stderr to `/dev/null`.
