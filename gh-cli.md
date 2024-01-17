@@ -12,6 +12,9 @@ See the offical docs [here](https://github.com/cli/cli#installation).
 
 ## Signing in
 
+> **Note:**
+> `gh` requires an internet connection.
+
 After installing gh, we need to sign in to both of our accounts.
 
 In a terminal, run:
@@ -74,3 +77,9 @@ cd() {
   gh_auth_switch_on_pwd
 }
 ```
+
+> **Note:**
+> `gh` requires an internet connection.
+>
+> If you use `cd` without an internet connectio, you will get a warning form `gh` saying it couldn't connect.
+> If this is annoying, you can alter the `cd` function to only call `gh_auth_switch_on_pwd` if there is a connection, and/or send stdout/stderr to `/dev/null`
