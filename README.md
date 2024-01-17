@@ -6,7 +6,7 @@ How to manage multiple GitHub accounts with ssh on one machine.
 >
 > [Click here](./README.old.md) to see old solution.
 >
-> [CLick here](./change.md) to see explanation of differences and reasons between the two versions.
+> [Click here](./change.md) to see explanation of differences and reasons between the two versions.
 
 This guide is for Linux and MacOS.
 
