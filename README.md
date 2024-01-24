@@ -6,7 +6,7 @@ How to manage multiple GitHub accounts with ssh on one machine.
 >
 > [Click here](./README.old.md) to see old solution.
 >
-> [CLick here](./change.md) to see explanation of differences and reasons between the two versions.
+> [Click here](./change.md) to see explanation of differences and reasons between the two versions.
 
 This guide is for Linux and MacOS.
 
@@ -129,3 +129,7 @@ Our ssh directory will look like:
 > **`-i /path/to/personal/key`:** Specifies the path to the private key that Git should use when connecting via SSH. In this case, it points to a specific private key file associated with your personal account.
 >
 > **`-F /dev/null`:** Specifies the configuration file to use for SSH. `/dev/null` is a special file that essentially means "no configuration." This is useful when you want to use a specific key (`-i`) without any additional configuration. It ensures that no SSH configuration file is read, including `~/.ssh/config`, and the key specified with `-i` is used directly.
+
+## gh
+
+[Click here](./gh-cli.md) to see how to set up multiple accounts with GitHub CLI
