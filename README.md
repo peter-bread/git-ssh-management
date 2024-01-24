@@ -74,6 +74,8 @@ Our ssh directory will look like:
 
 ## Add Stuff to `.gitconfig` Files
 
+### `~/.gitconfig`
+
 ```bash
 # ~/.gitconfig
 
@@ -90,6 +92,8 @@ Our ssh directory will look like:
     path = ~/repos/work/.gitconfig
 ```
 
+### `~/repos/personal/.gitconfig`
+
 ```bash
 # ~/repos/personal/.gitconfig
 
@@ -99,6 +103,8 @@ Our ssh directory will look like:
 [core]
     sshCommand = ssh -i ~/.ssh/github-personal -F /dev/null
 ```
+
+### `~/repos/work/.gitconfig`
 
 ```bash
 # ~/repos/work/.gitconfig
