@@ -10,7 +10,7 @@ You use bash or zsh.
 
 This assumes that we have the same accounts and file structure as in [the first part](./README.md) of this guide.
 
-You have `jq` installed.
+You have `yq` installed.
 
 ## Installation
 
@@ -62,7 +62,7 @@ To do this, add the following functions to your shell configuration file (`~/.ba
 ```bash
 # Switch on pwd (bash | zsh):
 gh_auth_switch_on_pwd() {
-  current_account=$(gh api /user | jq -r .login)
+  current_account=$(yq -r '.["github.com"].user' "$HOME/.config/gh/hosts.yml")
 
   account_names=("work" "personal")
 
