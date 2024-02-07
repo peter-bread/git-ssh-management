@@ -71,27 +71,56 @@ To do this, add the following functions to your shell configuration file (`~/.ba
 # Switch on pwd (bash | zsh):
 gh_auth_switch_on_pwd() {
 
-  # check if gh config files are stored on non-default location
+  # These are not really necessary, but they make the script more robust ------
+
+  # check if gh is installed
+  if ! command -v gh &> /dev/null; then
+    echo "Error: gh is not installed" >&2
+    return 1
+  fi
+
+  # check if yq is installed
+  if ! command -v yq &> /dev/null; then
+    echo "Error: yq is not installed" >&2
+    return 1
+  fi
+
+  # ---------------------------------------------------------------------------
+
+  # check if gh config files are in default location
   if [[ -n "$GH_CONFIG_DIR" ]]; then
-    config_dir="$GH_CONFIG_DIR"
+    # ensure GH_CONFIG_DIR ends with a slash
+    config_dir="${GH_CONFIG_DIR%/}/"
   else
     config_dir="$HOME/.config/gh/"
   fi
 
+  hosts="hosts.yml"
+
   # get current account from hosts.yml
-  current_account=$(yq -r '.["github.com"].user' "$config_dir/hosts.yml")
+  if ! current_account=$(yq -r '.["github.com"].user' "$config_dir$hosts") 2>/dev/null; then
+    echo "Error: Could not find current account in hosts.yml" >&2
+    return 1
+  fi
 
   # get accounts registered with gh from hosts.yml
-  account_names=$(yq eval '.["github.com"].users | keys' "$config_dir/hosts.yml")
+  if ! account_names=$(yq eval '.["github.com"].users | keys' "$config_dir$hosts") 2>/dev/null; then
+    echo "Error: Could not find accounts in hosts.yml" >&2
+    return 1
+  fi
 
-  # format (get rid of the `- ` at the start of each line)
+  # format (get rid of `- ` at the start of each line)
   account_names=${account_names//- /}
 
-  echo "$account_names" | while IFS= read -r account_name; do
-    if [[ "$PWD" == "$HOME/repos/$account_name"* && "$current_account" != "$account_name" ]]; then
-      gh auth switch --user "$account_name"
+  # switch account if current directory is in a different account
+  while IFS= read -r account_name; do
+    if [[ "$PWD" == "$HOME/Developer/$account_name"* && "$current_account" != "$account_name" ]]; then
+      if ! gh auth switch --user "$account_name"; then
+        echo "Error: Could not switch to account $account_name" >&2
+        return 1
+      fi
     fi
-  done
+  done <<< "$account_names"
 
 }
 
