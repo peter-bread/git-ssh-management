@@ -62,7 +62,16 @@ To do this, add the following functions to your shell configuration file (`~/.ba
 ```bash
 # Switch on pwd (bash | zsh):
 gh_auth_switch_on_pwd() {
-  current_account=$(yq -r '.["github.com"].user' "$HOME/.config/gh/hosts.yml")
+
+  # check if gh config files are stored on non-default location
+  if [[ -n "$GH_CONFIG_DIR" ]]; then
+    config_dir="$GH_CONFIG_DIR"
+  else
+    config_dir="$HOME/.config/gh/"
+  fi
+
+  # get current account from hosts.yml
+  current_account=$(yq -r '.["github.com"].user' "$config_dir/hosts.yml")
 
   account_names=("work" "personal")
 
