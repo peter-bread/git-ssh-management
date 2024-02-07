@@ -4,8 +4,6 @@
 
 It is private right now but will be going public soon.
 
-It will mean that you do not need to have `yq` installed.
-
 ---
 
 How to manage multiple GitHub accounts with [GitHub CLI](https://cli.github.com/) (gh v2.40 onwards).
