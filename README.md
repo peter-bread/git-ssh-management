@@ -1,5 +1,11 @@
 # git ssh management
 
+***I am currently working on a CLI tool to manage this along with some additonal functionality.***
+
+It is private right now but will be going public soon.
+
+---
+
 How to manage multiple GitHub accounts with ssh on one machine.
 
 > **Note:** This is an updated solution.
