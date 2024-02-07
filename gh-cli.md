@@ -81,13 +81,18 @@ gh_auth_switch_on_pwd() {
   # get current account from hosts.yml
   current_account=$(yq -r '.["github.com"].user' "$config_dir/hosts.yml")
 
-  account_names=("work" "personal")
+  # get accounts registered with gh from hosts.yml
+  account_names=$(yq eval '.["github.com"].users | keys' "$config_dir/hosts.yml")
 
-  for account_name in "${account_names[@]}"; do
-    if [[ "$PWD" == "$HOME/repos/$account_name"* && $current_account != "$account_name" ]]; then
+  # format (get rid of the `- ` at the start of each line)
+  account_names=${account_names//- /}
+
+  echo "$account_names" | while IFS= read -r account_name; do
+    if [[ "$PWD" == "$HOME/repos/$account_name"* && "$current_account" != "$account_name" ]]; then
       gh auth switch --user "$account_name"
     fi
   done
+
 }
 
 # Switch on cd (bash | zsh):
