@@ -146,19 +146,25 @@ gh_auth_switch_on_pwd() {
 
 }
 
-# Switch on cd (bash | zsh):
-cd() {
-  builtin cd "$@"
-  gh_auth_switch_on_pwd
-}
+# get current shell
+current_shell=$(ps -p $$ -ocomm=)
 
-# Switch on cd (zsh):
-autoload -U add-zsh-hook
-add-zsh-hook chpwd gh_auth_switch_on_pwd
+# calls function to check and/or switch github account on every cd
+if [[ $current_shell == *"zsh"* ]]; then
+  autoload -U add-zsh-hook
+  add-zsh-hook chpwd gh_auth_switch_on_pwd
+elif [[ $current_shell == *"bash"* ]]; then
+  cd() {
+    builtin cd "$@"
+    gh_auth_switch_on_pwd
+  }
+else
+  echo "Error: Unsupported shell. Only zsh and bash are supported." >&2
+  return 1
+fi
 ```
 
 > **Note:**
 > `gh` requires an internet connection.
 >
-> If you use `cd` without an internet connection, you will get a warning form `gh` saying it couldn't connect.
-> If this is annoying, you can alter the `cd` function to only call `gh_auth_switch_on_pwd` if there is a connection, and/or send stdout/stderr to `/dev/null`.
+> If you use `cd` and the script tries to run `gh auth switch --user <username>` without an internet connection it will throw an error.
