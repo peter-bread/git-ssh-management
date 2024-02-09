@@ -83,7 +83,6 @@ We want to change the active account based on a context. In this case, we will d
 To do this, add the following functions to your shell configuration file (`~/.bashrc`, `~/.zshrc`, etc):
 
 ```bash
-# Switch on pwd (bash | zsh):
 gh_auth_switch_on_pwd() {
 
   # These are not really necessary, but they make the script more robust ------
