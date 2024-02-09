@@ -88,18 +88,6 @@ To do this, add the following functions to your shell configuration file (`~/.ba
 
 gh_auth_switch_on_pwd() {
 
-  # check if GAM_REPO_ROOT_DIR is set
-  if [ -z "$GAM_REPO_ROOT_DIR" ]; then
-    echo "GAM_REPO_ROOT_DIR is not set. Please set it and try again."
-    return 1
-  fi
-
-  # check if GAM_REPO_ROOT_DIR is a valid directory
-  if [[ ! -d "$GAM_REPO_ROOT_DIR" ]]; then
-    echo "Error: $GAM_REPO_ROOT_DIR could not be found" >&2
-    return 1
-  fi
-
   # check if gh is installed
   trap 'GH_INSTALLED=' ERR
 
@@ -186,7 +174,7 @@ gh_auth_switch_on_pwd() {
 
   # switch account if current directory is in a different account
   while IFS= read -r account_name; do
-    if [[ "$PWD" == "$GAM_REPO_ROOT_DIR/$account_name"* && "$current_account" != "$account_name" ]]; then
+    if [[ "$PWD" == "$HOME/repos/$account_name"* && "$current_account" != "$account_name" ]]; then
       if ! gh auth switch --user "$account_name"; then
         echo "Error: Could not switch to account $account_name" >&2
         return 1
@@ -195,8 +183,8 @@ gh_auth_switch_on_pwd() {
     fi
 
     # handle error if mkdir fails
-    if ! mkdir -p "$GAM_REPO_ROOT_DIR/$account_name"; then
-      echo "Error: Could not create directory $GAM_REPO_ROOT_DIR/$account_name" >&2
+    if ! mkdir -p "$HOME/repos/$account_name"; then
+      echo "Error: Could not create directory $HOME/repos/$account_name" >&2
       return 1
     fi
 
