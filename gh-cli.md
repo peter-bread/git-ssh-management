@@ -57,6 +57,26 @@ github.com
   - Token scopes: 'gist', 'read:org', 'repo'
 ```
 
+Here, the account tokens are stored in Apple Keychain.
+
+If they are stored in plain text, it may look something like this:
+
+```bash
+❯ gh auth status
+github.com
+  ✓ Logged in to github.com account personal (/home/users/username/.config/gh/hosts.yml)
+  - Active account: true
+  - Git operations protocol: ssh
+  - Token: gho_************************************
+  - Token scopes: 'gist', 'read:org', 'repo'
+
+  ✓ Logged in to github.com account work (/home/users/username/.config/gh/hosts.yml)
+  - Active account: false
+  - Git operations protocol: ssh
+  - Token: gho_************************************
+  - Token scopes: 'gist', 'read:org', 'repo'
+```
+
 The `Active account` is the one that is currently active (obviously).
 
 ## Automatic Switching
