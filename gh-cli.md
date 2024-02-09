@@ -10,17 +10,14 @@ How to manage multiple GitHub accounts with [GitHub CLI](https://cli.github.com/
 
 ## Prerequisites
 
-This guide is for Linux and MacOS.
-
-You use bash or zsh.
+| Category | Requirement | Link |
+| --- | --- | --- |
+| OS | MacOS, Linux | - |
+| Shell | bash, zsh | - |
+| Other Software | gh | [Installation](https://github.com/cli/cli?tab=readme-ov-file#installation) |
+| Other Software | yq | [Installation](https://github.com/mikefarah/yq?tab=readme-ov-file#install) |
 
 This assumes that we have the same accounts and file structure as in [the first part](./README.md) of this guide.
-
-You have `yq` installed.
-
-## Installation
-
-See the offical docs [here](https://github.com/cli/cli#installation).
 
 ## Signing in
 
