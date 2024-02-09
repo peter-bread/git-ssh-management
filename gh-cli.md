@@ -93,6 +93,12 @@ gh_auth_switch_on_pwd() {
     config_dir="$HOME/.config/gh/"
   fi
 
+  # Check if config_dir exists and is a valid directory
+  if [[ ! -d "$config_dir" ]]; then
+    echo "Error: $config_dir could not be found" >&2
+    return 1
+  fi
+
   hosts="hosts.yml"
 
   # get current account from hosts.yml
@@ -112,11 +118,12 @@ gh_auth_switch_on_pwd() {
 
   # switch account if current directory is in a different account
   while IFS= read -r account_name; do
-    if [[ "$PWD" == "$HOME/Developer/$account_name"* && "$current_account" != "$account_name" ]]; then
+    if [[ "$PWD" == "$HOME/repos/$account_name"* && "$current_account" != "$account_name" ]]; then
       if ! gh auth switch --user "$account_name"; then
         echo "Error: Could not switch to account $account_name" >&2
         return 1
       fi
+      mkdir -p "$HOME/repos/$account_name"
     fi
   done <<< "$account_names"
 
