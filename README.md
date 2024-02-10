@@ -1,8 +1,12 @@
-# git ssh management
+# git ssh management <!-- omit in toc -->
 
-***I am currently working on a CLI tool to manage this along with some additonal functionality.***
+***I am currently working on a [CLI tool](https://github.com/peter-bread/gamon) to manage this along with some additonal functionality.***
 
-It is private right now but will be going public soon.
+As of right now, this tool depends on the file structure detailed here being implented manually.
+
+In the future, I hope to make generating this file structure automatic.
+
+In the even further future, I hope to make this file structure more flexible, but that is not my priority at the moment.
 
 ---
 
@@ -14,11 +18,26 @@ How to manage multiple GitHub accounts with ssh on one machine.
 >
 > [Click here](./change.md) to see explanation of differences and reasons between the two versions.
 
-This guide is for Linux and MacOS.
+## Table of Contents <!-- omit in toc -->
 
-For Windows, filepaths will need to be modified. Would recommend using WSL, then this tutorial will work.
+- [Prerequisites](#prerequisites)
+- [Our Accounts](#our-accounts)
+- [Set up File Structure](#set-up-file-structure)
+- [Generate ssh keys](#generate-ssh-keys)
+- [Add Stuff to `.gitconfig` Files](#add-stuff-to-gitconfig-files)
+- [gh](#gh)
 
-In this let's assume we have two GitHub accounts, personal and work.
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- You have installed the latest version of [Git](https://git-scm.com/downloads).
+- You have a Linux or MacOS machine. Windows users can use WSL.
+- You have read the [guide on how to set up multiple accounts with GitHub CLI](./gh-cli.md).
+
+## Our Accounts
+
+In this let's assume we have two GitHub accounts, *personal* and *work*.
 
 Suppose our emails are:
 
@@ -48,6 +67,16 @@ Repos on our work GitHub will be stored in `~/repos/work/`.
 > On Linux: `~/` is the same as `/home/username/`.
 >
 > On MacOS: `~/` is the same as `/Users/username/`.
+
+To be clear:
+
+> You will only be able to clone repositories with **ssh** when in `~/repos/personal` or `~/repos/work`. These should be repositories **owned by you**.
+>
+> ---
+>
+> If you want to build an app from source, for example, you can clone a public repository **owned by anyone** anywhere you like as long as you use **https**.
+>
+> If you have any other ssh key loaded in your ssh agent or with a default name (like `id_ed25519`), ssh may work for this, but I haven't tested it.
 
 ## Generate ssh keys
 
@@ -80,7 +109,7 @@ Our ssh directory will look like:
 
 ## Add Stuff to `.gitconfig` Files
 
-### `~/.gitconfig`
+### `~/.gitconfig` <!-- omit in toc -->
 
 ```bash
 # ~/.gitconfig
@@ -98,7 +127,7 @@ Our ssh directory will look like:
     path = ~/repos/work/.gitconfig
 ```
 
-### `~/repos/personal/.gitconfig`
+### `~/repos/personal/.gitconfig` <!-- omit in toc -->
 
 ```bash
 # ~/repos/personal/.gitconfig
@@ -110,7 +139,7 @@ Our ssh directory will look like:
     sshCommand = ssh -i ~/.ssh/github-personal -F /dev/null
 ```
 
-### `~/repos/work/.gitconfig`
+### `~/repos/work/.gitconfig` <!-- omit in toc -->
 
 ```bash
 # ~/repos/work/.gitconfig
@@ -122,7 +151,7 @@ Our ssh directory will look like:
     sshCommand = ssh -i ~/.ssh/github-work -F /dev/null
 ```
 
-## `core.sshCommand` Explanation
+## `core.sshCommand` Explanation <!-- omit in toc -->
 
 **`[core]`:** This is a section in the Git configuration that is used for core settings that apply to the entire repository.
 
@@ -138,4 +167,4 @@ Our ssh directory will look like:
 
 ## gh
 
-[Click here](./gh-cli.md) to see how to set up multiple accounts with GitHub CLI
+[Click here](./gh-cli.md) to see how to set up multiple accounts with GitHub CLI.

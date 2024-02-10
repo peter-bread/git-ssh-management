@@ -1,8 +1,10 @@
 # gh management
 
-***I am currently working on a CLI tool to manage this along with some additonal functionality.***
+***I am currently working on a [CLI tool](https://github.com/peter-bread/gamon) to manage this along with some additonal functionality.***
 
-It is private right now but will be going public soon.
+Currently, this tool does what this script does.
+
+I intend to add more functionality.
 
 ---
 
@@ -10,12 +12,19 @@ How to manage multiple GitHub accounts with [GitHub CLI](https://cli.github.com/
 
 ## Prerequisites
 
-| Category | Requirement | Link |
-| --- | --- | --- |
-| OS | MacOS, Linux | - |
-| Shell | bash, zsh | - |
-| Other Software | gh | [Installation](https://github.com/cli/cli?tab=readme-ov-file#installation) |
-| Other Software | yq | [Installation](https://github.com/mikefarah/yq?tab=readme-ov-file#install) |
+### System Requirements
+
+| Category | Requirement |
+| --- | --- |
+| OS | MacOS, Linux |
+| Shell | bash, zsh |
+
+### Software Requirements
+
+| Software | Link |
+| --- | --- |
+| gh | [Installation](https://github.com/cli/cli?tab=readme-ov-file#installation) |
+| yq | [Installation](https://github.com/mikefarah/yq?tab=readme-ov-file#install) |
 
 This assumes that we have the same accounts and file structure as in [the first part](./README.md) of this guide.
 
